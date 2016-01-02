@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="output_preview" name="OutputAndPreview" schema="schema/output_preview.exsd"/>
+   <extension
+         id="id1"
+         name="DeepSearch"
+         point="pt.iscte.pidesco.view">
+      <view
+            class="composites.MainSearchView"
+            icon="map_glass.png">
+      </view>
+   </extension>
+   <extension
+         point="pa.iscde.deepsearch.output_preview">
+      <item
+            class="implementation.OutputPreview_Implementation"
+            name="OutputImpl">
+      </item>
+   </extension>
+   <extension
+         point="pt.iscte.pidesco.classdiagram.Filter">
+      <FilterClass
+            filter="pa.iscde.deepsearch.ClassDiagramFilter1"
+            filterName="pa.iscde.deepsearch.FilterClass1">
+      </FilterClass>
+   </extension>
+   <extension
+         point="pa.iscde.mcgraph.mcfilter">
+      <item
+            class="extensions.MCGraphFilter_Implementation"
+            name="MCFilter">
+      </item>
+   </extension>
+
+</plugin>

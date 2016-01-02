@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="mcfilter" name="McGraph Filter" schema="schema/mcfilter.exsd"/>
+   <extension-point id="mclayout" name="McGraph Layout" schema="schema/mclayout.exsd"/>
+   <extension
+         id="mcgraphview"
+         name="MCGraph"
+         point="pt.iscte.pidesco.view">
+      <view
+            class="pa.iscde.mcgraph.view.McGraphView"
+            icon="mcg.png">
+      </view>
+   </extension>
+   <extension
+         id="mcgraphfilter"
+         name="McGraphFilter"
+         point="pt.iscte.pidesco.tool">
+      <tool
+            class="pa.iscde.mcgraph.internal.PidescoTool"
+            description="Filter"
+            hasState="false"
+            icon="filter.png"
+            view="pa.iscde.mcgraph.mcgraphview">
+      </tool>
+   </extension>
+   <extension
+         id="McGraph"
+         name="McGraphOutput_Preview"
+         point="pa.iscde.deepsearch.output_preview">
+      <item
+            class="pa.iscde.mcgraph.extension.McGraphOutPut_Preview"
+            name="McGraphOutput_Preview">
+      </item>
+   </extension>
+   <extension
+         id="mcgraphlayout"
+         name="McGraph Layout"
+         point="pt.iscte.pidesco.tool">
+      <tool
+            class="pa.iscde.mcgraph.internal.PidescoLayoutTool"
+            hasState="false"
+            icon="layouticon.png"
+            view="pa.iscde.mcgraph.mcgraphview">
+      </tool>
+   </extension>
+   <extension
+         id="sort"
+         name="SpeedText SortList"
+         point="pa.iscde.speedtext.sortlist">
+   </extension>
+
+</plugin>

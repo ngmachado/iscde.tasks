@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="tTask"
+         name="TTest"
+         point="pa.iscde.tasks.type">
+      <task
+            class="pa.iscde.tasks.test.TestTask">
+      </task>
+   </extension>
+   <extension
+         id="provider1"
+         name="Test Provider"
+         point="pa.iscde.tasks.provider">
+     <task
+            class="pa.iscde.tasks.test.TestProvider">
+      </task>
+   </extension>
+
+</plugin>

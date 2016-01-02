@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="textext" name="Test Extension" schema="schema/textext.exsd"/>
+   <extension-point id="pa.iscde.metrixexport" name="export" schema="schema/export.exsd"/>
+   <extension-point id="pa.iscde.addmetricext" name="addmetricext" schema="schema/pa.iscde.addmetricext.exsd"/>
+   <extension
+         id="metrixview"
+         name="Metrix"
+         point="pt.iscte.pidesco.view">
+      <view
+            class="pa.iscde.metrix.internal.MetrixView"
+            icon="smiley.png">
+      </view>
+   </extension>
+
+</plugin>

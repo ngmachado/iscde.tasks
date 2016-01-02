@@ -1,0 +1,8 @@
+package pa.iscde.metrix.extensibility;
+
+public enum DefaultMetrics {
+
+	NUMBER_OF_LINES, NUMBER_OF_METHODS, NUMBER_OF_CONSTRUCTORS, NUMBER_OF_FIELDS, NUMBER_OF_COMMENTS,
+	NUMBER_OF_CHARACTERS, NUMBER_OF_PACKAGES
+
+}

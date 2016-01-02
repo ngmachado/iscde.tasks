@@ -308,6 +308,10 @@ public class SpeedTextService implements PidescoView {
 
 		//Vers�o nova
 		ArrayList<String> result = toArrayList(sugestionList);
+		//hack - NM
+		if(extensionResultSortList.isEmpty()) {
+			return;
+		}
 		SpeedTextSortList extension = extensionResultSortList.get(0);
 		for (int x=0; x<sugestionList.getItemCount(); x++){
 			for (int y=x; y<sugestionList.getItemCount(); y++){

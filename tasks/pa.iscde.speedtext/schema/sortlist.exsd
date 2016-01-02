@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="pa.iscde.speedtext" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="pa.iscde.speedtext" id="sortlist" name="Sort List"/>
+      </appinfo>
+      <documentation>
+         Sort the suggestion list as you please
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
+      <complexType>
+         <sequence>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="speedtextsort" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="item">
+      <complexType>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  Not used
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string">
+            <annotation>
+               <documentation>
+                  Class that implements the interface SpeedTextSortList
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":pa.iscde.speedtext.SpeedTextSortList"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+
+   <annotation>
+      <appinfo>
+         <meta.section type="examples"/>
+      </appinfo>
+      <documentation>
+         For example you can use this extension point to see the list in alphabetical order, ordered by the size of the strings, variables first and methods after, etc...
+      </documentation>
+   </annotation>
+
+
+   <annotation>
+      <appinfo>
+         <meta.section type="implementation"/>
+      </appinfo>
+      <documentation>
+         Example of a simple implementation that reverts the list index
+
+public class testSort implements SpeedTextSortList{
+	@Override
+	public Collection&lt;String&gt; sortList(Collection&lt;String&gt; list) {
+		Object[] aux = list.toArray();
+		list.clear();
+		for (int x = aux.length-1; x&gt;=0 ; x--){
+			list.add((String) aux[x]);
+		}
+		return list;
+	}
+}
+      </documentation>
+   </annotation>
+
+
+</schema>

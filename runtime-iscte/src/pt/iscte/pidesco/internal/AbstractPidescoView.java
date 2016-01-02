@@ -1,4 +1,3 @@
-package pt.iscte.pidesco.internal;
 
 import java.util.Collections;
 import java.util.Enumeration;

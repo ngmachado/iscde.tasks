@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="Filter" name="filter" schema="schema/Filter.exsd"/>
+   <extension-point id="PopupAction" name="popupAction" schema="schema/PopupAction.exsd"/>
+   <extension-point id="Styler" name="styler" schema="schema/Styler.exsd"/>
+   <extension-point id="LayoutAlgorithm" name="layoutAlgorithm" schema="schema/LayoutAlgorithms.exsd"/>
+   <extension
+         id="classDiagram"
+         name="Diagrama de Classes"
+         point="pt.iscte.pidesco.view">
+      <view
+            class="pt.iscde.classdiagram.internal.ClassDiagramView"
+            icon="sitemap.png">
+      </view>
+   </extension>
+   <extension
+         id="id1"
+         name="name"
+         point="pt.iscte.pidesco.tool">
+      <tool
+            class="pa.iscde.classdiagram.ActivateFiltersTool"
+            description="Activates/Deactivates Filters"
+            hasState="true"
+            icon="funnel.png"
+            view="pt.iscte.pidesco.classdiagram.classDiagram">
+      </tool>
+   </extension>
+
+</plugin>

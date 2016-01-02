@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="pa.iscde.speedtext" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="pa.iscde.speedtext" id="extrainfo" name="Extra Info"/>
+      </appinfo>
+      <documentation>
+         This extension point adds extra info to the sugestion list
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="item"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="speedtextextrainfo" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="item">
+      <complexType>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+
+   <annotation>
+      <appinfo>
+         <meta.section type="examples"/>
+      </appinfo>
+      <documentation>
+         For example you can use this extension point to show the return type of the methods
+      </documentation>
+   </annotation>
+
+
+   <annotation>
+      <appinfo>
+         <meta.section type="implementation"/>
+      </appinfo>
+      <documentation>
+         Add info+index to each item
+
+public class testExtra implements SpeedTextExtraInfo {
+
+	@Override
+	public Collection&lt;String&gt; extraInfo(Collection&lt;String&gt; list,File file) {
+		System.out.println(&quot;antes: &quot;+list.toString());
+		Object[] aux = list.toArray();
+		list.clear();
+		for(int i=0; i&lt;aux.length;i++){
+			list.add(&quot;info&quot;+i);
+		}
+		System.out.println(&quot;depois: &quot;+list.toString());	
+		return list;
+	}
+
+}
+      </documentation>
+   </annotation>
+
+
+</schema>

@@ -2,6 +2,7 @@ package pa.iscde.tasks.gui.view;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -13,6 +14,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -24,7 +26,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
 import pa.iscde.tasks.extensibility.ITask;
-import pa.iscde.tasks.integration.TaskSearch;
 import pa.iscde.tasks.control.TasksActivator;
 import pa.iscde.tasks.model.ModelProvider;
 import pt.iscte.pidesco.extensibility.PidescoView;
@@ -37,8 +38,24 @@ public class TableView implements PidescoView {
 
 	private static TableView instance;
 
-	private TableViewer taskViewer;
+	private static TableViewer taskViewer;
 	
+	public static void setFilter(ViewerFilter filter)  {
+		removeAllFilters();
+		taskViewer.addFilter(filter);
+	}
+	
+	public static void removeFilter(ViewerFilter filter)  {
+		taskViewer.removeFilter(filter);
+	}
+	
+	public static void removeAllFilters()  {
+		ViewerFilter[] filters = taskViewer.getFilters();
+		
+		for (ViewerFilter filter : filters) {
+			taskViewer.removeFilter(filter);
+		}
+	}
 	
 	@Override
  	public void createContents(Composite viewArea, Map<String, Image> imageMap) {
@@ -55,7 +72,6 @@ public class TableView implements PidescoView {
 					JavaEditorServices jes = TasksActivator.getJavaEditorServices();
 					ModelProvider.INSTANCE.ActionPerformFromProvider(jes, taskOcc);
 				}
-				//TasksActivator.getJavaEditorServices().openFile(new File(taskOcc.getAbsolutePath()));
 			}
 		});	
 		
@@ -79,7 +95,8 @@ public class TableView implements PidescoView {
 	public static TableView getInstance() {
 		return instance;
 	}
-
+	
+		
 	private TableViewer buildTaskTable(final Composite viewArea) {
 		final TableViewer taskView = new TableViewer(viewArea,
 				SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
@@ -89,22 +106,10 @@ public class TableView implements PidescoView {
 			
 			@Override
 			public void update(ViewerCell cell) {
-				//Define image based on type 
-				Image img;
-				//Get path to image
-				//String path = "/images/" + ((ITask) cell.getElement()).getType().getType() + ".png";
+				//Define image based on type
 				try {
-					//InputStream istream = getClass().getResourceAsStream(path);
-					//use a default image to client TaskType
-					InputStream istream = ((ITask)cell.getElement()).getType().getIconStream();
-					//Default Image...
-					if(istream == null)  {
-						istream = getClass().getResourceAsStream("/images/refresh.gif");
-					}
-					
-					img = new Image(viewArea.getDisplay(), istream);
-					cell.setImage(img);						
-					
+					InputStream istream = getImageStream((ITask)cell.getElement());
+					cell.setImage(new Image(viewArea.getDisplay(), istream));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -189,26 +194,19 @@ public class TableView implements PidescoView {
 
 		final Menu prioritySubMenu = new Menu(menu);
 		priorityMenu.setMenu(prioritySubMenu);
-
-		 
-
+		
 		return menu;
 	}
+	
+	//Get icon based on TaskType
+	private InputStream getImageStream(ITask task)  {
+		InputStream istream;
+		istream = task.getType().getIconStream();
+		//Default Image...
+		if(istream == null)  {
+			istream = getClass().getResourceAsStream("/images/refresh.gif");
+		}
+		return istream;
+	}
 
-	/*private void startListenToSearchEvent()  {
-		ISearchEvent sevent = TasksActivator.getDeepSearchServices();
-		sevent.addListener(new ISearchEventListener() {
-			
-			@Override
-			public void widgetSelected(String text_Search, String text_SearchInCombo, String specificText_SearchInCombo,
-					String text_SearchForCombo, ArrayList<String> buttonsSelected_SearchForCombo) {
-				
-				//Find if the search use type of tasks
-				if(text_Search.equals("Bug"))
-					System.out.println("Search event in TableView Key:" + text_Search);
-				
-			}
-		});
-		
-	} */
 }

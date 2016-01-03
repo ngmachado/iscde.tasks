@@ -26,11 +26,16 @@ public enum ModelProvider {
 	INSTANCE;
 	
 	private final List<ITaskProvider> taskProviders;
+	private String filterQuery;
 	
 	private ModelProvider() {
 		taskProviders = new ArrayList<ITaskProvider>();
 	}
 
+	public void setFilter(String filter) {
+		filterQuery = filter;
+	}
+	
 	public List<ITask> getTasksList() {
 		taskProviders.clear();
 		getTasksFromClientProviders();
@@ -43,6 +48,25 @@ public enum ModelProvider {
 		List<ITask> returnListTasks = new ArrayList<>();
 		for (ITaskProvider tp : taskProviders) {
 			returnListTasks.addAll(tp.getTasks());
+		}
+		
+		//Remove not query results
+		if(filterQuery != null)  {
+			List<ITask> filterResult = new ArrayList<>();
+			for (ITask iTask : returnListTasks) {
+				if(iTask.getType().getType().equals(filterQuery)) {
+					filterResult.add(iTask);
+				}
+				
+			}
+			//If the result is empty then is better to show all
+			if(filterResult.isEmpty())  {
+				return returnListTasks;
+			} else {
+				return filterResult;
+			}
+			
+			
 		}
 		
 		return returnListTasks;

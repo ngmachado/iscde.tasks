@@ -9,7 +9,7 @@
          point="pt.iscte.pidesco.view">
       <view
             class="pa.iscde.tasks.gui.view.TableView"
-            icon="task.png">
+            icon="task.gif">
       </view>
    </extension>
    <extension

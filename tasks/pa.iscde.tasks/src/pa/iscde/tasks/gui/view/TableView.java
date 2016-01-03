@@ -224,7 +224,7 @@ public class TableView implements PidescoView {
 		istream = task.getType().getIconStream();
 		//Default Image...
 		if(istream == null)  {
-			istream = getClass().getResourceAsStream("/images/refresh.gif");
+			istream = getClass().getResourceAsStream("/images/unknown.gif");
 		}
 		return istream;
 	}

@@ -24,6 +24,7 @@ public class TaskSearch {
 				String text_SearchForCombo, ArrayList<String> buttonsSelected_SearchForCombo) {
 			
 			if(text_Search.length() > 0)  {
+				
 				TaskFilter filter = new TaskFilter();
 				filter.setFilter(text_Search);
 				TableView.getInstance();

@@ -1,8 +1,6 @@
 package pa.iscde.tasks.gui.view;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -18,10 +16,14 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
@@ -43,10 +45,12 @@ public class TableView implements PidescoView {
 	public static void setFilter(ViewerFilter filter)  {
 		removeAllFilters();
 		taskViewer.addFilter(filter);
+		FilterColor(taskViewer.getTable());
 	}
 	
 	public static void removeFilter(ViewerFilter filter)  {
 		taskViewer.removeFilter(filter);
+		FilterColor(taskViewer.getTable());
 	}
 	
 	public static void removeAllFilters()  {
@@ -55,6 +59,13 @@ public class TableView implements PidescoView {
 		for (ViewerFilter filter : filters) {
 			taskViewer.removeFilter(filter);
 		}
+		FilterColor(taskViewer.getTable());
+	}
+	
+	private static boolean isFilterSet()  {
+		if(taskViewer.getFilters().length > 0)
+			return true;
+		return false;
 	}
 	
 	@Override
@@ -100,7 +111,7 @@ public class TableView implements PidescoView {
 	private TableViewer buildTaskTable(final Composite viewArea) {
 		final TableViewer taskView = new TableViewer(viewArea,
 				SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
-
+		
 		//Image based on Type
 		createColumn(taskView, HEADER_ARRAY[0], BOUNDS_ARRAY[0], 0).setLabelProvider(new CellLabelProvider() {
 			
@@ -179,6 +190,7 @@ public class TableView implements PidescoView {
 	}
 
 	private Menu generateMenu(Table table) {
+	    
 		final Menu menu = new Menu(table);
 		final MenuItem refreshMenu = new MenuItem(menu, SWT.CASCADE);
 		refreshMenu.setText("Refresh");
@@ -188,14 +200,25 @@ public class TableView implements PidescoView {
 				refresh();
 			}
 		});
-
+		/*
 		final MenuItem priorityMenu = new MenuItem(menu, SWT.CASCADE);
 		priorityMenu.setText("Priority");
 
 		final Menu prioritySubMenu = new Menu(menu);
 		priorityMenu.setMenu(prioritySubMenu);
-		
+		*/
 		return menu;
+	}
+	
+	private static void FilterColor(Table table)  {
+		Color color;
+		if(isFilterSet())  {
+			color = table.getDisplay().getSystemColor(SWT.COLOR_YELLOW);
+		} else {
+			color = table.getDisplay().getSystemColor(SWT.COLOR_TRANSPARENT);
+		}
+		
+		table.setBackground(color);
 	}
 	
 	//Get icon based on TaskType

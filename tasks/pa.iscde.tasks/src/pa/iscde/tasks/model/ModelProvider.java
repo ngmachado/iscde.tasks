@@ -155,9 +155,12 @@ public enum ModelProvider {
 		//Find PerformAction of Task and executed in jes editor context
 		//find based on providerID
 		ITaskProvider tp = findProvider(task);
+		
+		
 		if(tp != null)  {
 			tp.performAction(jes,task);
 		}
+		
 		//If not found don't do nothing...
 		return;
 	}

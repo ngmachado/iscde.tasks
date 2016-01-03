@@ -8,6 +8,8 @@ public interface ITaskProvider {
 	
 	public List<ITask> getTasks(); 
 	
+	public IActionForTask getAction();
+	
 	public void performAction(JavaEditorServices jes, ITask task);
 	
 }

@@ -1,6 +1,7 @@
 package pa.iscde.tasks.gui.view;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -23,6 +24,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
 import pa.iscde.tasks.extensibility.ITask;
+import pa.iscde.tasks.integration.TaskSearch;
 import pa.iscde.tasks.control.TasksActivator;
 import pa.iscde.tasks.model.ModelProvider;
 import pt.iscte.pidesco.extensibility.PidescoView;
@@ -38,14 +40,13 @@ public class TableView implements PidescoView {
 	private TableViewer taskViewer;
 	
 	
-	
 	@Override
-	public void createContents(Composite viewArea, Map<String, Image> imageMap) {
+ 	public void createContents(Composite viewArea, Map<String, Image> imageMap) {
 		instance = this;
 		taskViewer = buildTaskTable(viewArea);
 		taskViewer.setContentProvider(ArrayContentProvider.getInstance());
 		taskViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-
+			
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				final IStructuredSelection selection = taskViewer.getStructuredSelection();
@@ -56,12 +57,12 @@ public class TableView implements PidescoView {
 				}
 				//TasksActivator.getJavaEditorServices().openFile(new File(taskOcc.getAbsolutePath()));
 			}
-		});
-
+		});	
+		
 		final Table table = taskViewer.getTable();
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-
+		
 		final Menu contextMenu = generateMenu(table);
 		taskViewer.getTable().setMenu(contextMenu);
 
@@ -194,5 +195,20 @@ public class TableView implements PidescoView {
 		return menu;
 	}
 
-	// taskViewer.addFilter(new PriorityFilter(PRIORITY.HIGH));
+	/*private void startListenToSearchEvent()  {
+		ISearchEvent sevent = TasksActivator.getDeepSearchServices();
+		sevent.addListener(new ISearchEventListener() {
+			
+			@Override
+			public void widgetSelected(String text_Search, String text_SearchInCombo, String specificText_SearchInCombo,
+					String text_SearchForCombo, ArrayList<String> buttonsSelected_SearchForCombo) {
+				
+				//Find if the search use type of tasks
+				if(text_Search.equals("Bug"))
+					System.out.println("Search event in TableView Key:" + text_Search);
+				
+			}
+		});
+		
+	} */
 }

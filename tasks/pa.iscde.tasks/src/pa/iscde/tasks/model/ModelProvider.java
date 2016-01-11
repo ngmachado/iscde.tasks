@@ -1,10 +1,8 @@
 package pa.iscde.tasks.model;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.SortedSet;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -13,14 +11,8 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
-import pa.iscde.tasks.control.TasksActivator;
 import pa.iscde.tasks.extensibility.ITask;
 import pa.iscde.tasks.extensibility.ITaskProvider;
-import pa.iscde.tasks.model.parser.CommentExtractor;
-import pa.iscde.tasks.model.parser.FileToString;
-import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
-import pt.iscte.pidesco.projectbrowser.model.PackageElement;
-import pt.iscte.pidesco.projectbrowser.model.SourceElement;
 
 public enum ModelProvider {
 
@@ -69,12 +61,7 @@ public enum ModelProvider {
 				}
 			}
 		}
-
 	}
-
- 
-
-
 
 
 	public ITaskProvider findProvider(ITask task) {

@@ -2,12 +2,12 @@ package pa.iscde.tasks.extensibility;
 
 import java.util.List;
 
-import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
-
 public interface ITaskProvider {
+	
+	public String getProviderName();
 	
 	public List<ITask> getTasks(); 
 	
-	public void performAction(JavaEditorServices jes, ITask task);
+	public void performAction(ITask task);
 	
 }

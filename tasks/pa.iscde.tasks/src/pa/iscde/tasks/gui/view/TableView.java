@@ -38,55 +38,54 @@ public class TableView implements PidescoView {
 	private static TableView instance;
 
 	private static TableViewer taskViewer;
-	
-	public void setFilter(ViewerFilter filter)  {
+
+	public void setFilter(ViewerFilter filter) {
 		removeAllFilters();
 		taskViewer.addFilter(filter);
 		FilterColor(taskViewer.getTable());
 	}
-	
-	public void removeFilter(ViewerFilter filter)  {
+
+	public void removeFilter(ViewerFilter filter) {
 		taskViewer.removeFilter(filter);
 		FilterColor(taskViewer.getTable());
 	}
-	
-	public void removeAllFilters()  {
+
+	public void removeAllFilters() {
 		ViewerFilter[] filters = taskViewer.getFilters();
-		
+
 		for (ViewerFilter filter : filters) {
 			taskViewer.removeFilter(filter);
 		}
 		FilterColor(taskViewer.getTable());
 	}
-	
-	private boolean isFilterSet()  {
-		if(taskViewer.getFilters().length > 0)
+
+	private boolean isFilterSet() {
+		if (taskViewer.getFilters().length > 0)
 			return true;
 		return false;
 	}
-	
+
 	@Override
- 	public void createContents(Composite viewArea, Map<String, Image> imageMap) {
+	public void createContents(Composite viewArea, Map<String, Image> imageMap) {
 		instance = this;
 		taskViewer = buildTaskTable(viewArea);
 		taskViewer.setContentProvider(ArrayContentProvider.getInstance());
 		taskViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			
+
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				final IStructuredSelection selection = taskViewer.getStructuredSelection();
 				final ITask taskOcc = (ITask) selection.getFirstElement();
-				if (taskOcc != null)  {
-					JavaEditorServices jes = TasksActivator.getJavaEditorServices();
-					ModelProvider.INSTANCE.ActionPerformFromProvider(jes, taskOcc);
+				if (taskOcc != null) {
+					ModelProvider.INSTANCE.performActionFromTaskProvider(taskOcc);
 				}
 			}
-		});	
-		
+		});
+
 		final Table table = taskViewer.getTable();
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		
+
 		final Menu contextMenu = generateMenu(table);
 		taskViewer.getTable().setMenu(contextMenu);
 
@@ -103,28 +102,27 @@ public class TableView implements PidescoView {
 	public static TableView getInstance() {
 		return instance;
 	}
-	
-		
+
 	private TableViewer buildTaskTable(final Composite viewArea) {
 		final TableViewer taskView = new TableViewer(viewArea,
 				SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
-		
-		//Image based on Type
+
+		// Image based on Type
 		createColumn(taskView, HEADER_ARRAY[0], BOUNDS_ARRAY[0], 0).setLabelProvider(new CellLabelProvider() {
-			
+
 			@Override
 			public void update(ViewerCell cell) {
-				//Define image based on type
+				// Define image based on type
 				try {
-					InputStream istream = getImageStream((ITask)cell.getElement());
+					InputStream istream = getImageStream((ITask) cell.getElement());
 					cell.setImage(new Image(viewArea.getDisplay(), istream));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}	
+				}
 			}
 		});
-		
+
 		// Task Type
 		createColumn(taskView, HEADER_ARRAY[1], BOUNDS_ARRAY[1], 1).setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -164,12 +162,12 @@ public class TableView implements PidescoView {
 				return ((ITask) element).getMsg();
 			}
 		});
-		
+
 		// source
 		createColumn(taskView, HEADER_ARRAY[6], BOUNDS_ARRAY[6], 6).setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return ModelProvider.INSTANCE.getProviderID((ITask) element);
+				return ModelProvider.INSTANCE.findProvider((ITask) element).getProviderName();
 			}
 		});
 
@@ -187,7 +185,7 @@ public class TableView implements PidescoView {
 	}
 
 	private Menu generateMenu(Table table) {
-	    
+
 		final Menu menu = new Menu(table);
 		final MenuItem refreshMenu = new MenuItem(menu, SWT.CASCADE);
 		refreshMenu.setText("Refresh");
@@ -198,32 +196,32 @@ public class TableView implements PidescoView {
 			}
 		});
 		/*
-		final MenuItem priorityMenu = new MenuItem(menu, SWT.CASCADE);
-		priorityMenu.setText("Priority");
-
-		final Menu prioritySubMenu = new Menu(menu);
-		priorityMenu.setMenu(prioritySubMenu);
-		*/
+		 * final MenuItem priorityMenu = new MenuItem(menu, SWT.CASCADE);
+		 * priorityMenu.setText("Priority");
+		 * 
+		 * final Menu prioritySubMenu = new Menu(menu);
+		 * priorityMenu.setMenu(prioritySubMenu);
+		 */
 		return menu;
 	}
-	
-	private void FilterColor(Table table)  {
+
+	private void FilterColor(Table table) {
 		Color color;
-		if(isFilterSet())  {
+		if (isFilterSet()) {
 			color = table.getDisplay().getSystemColor(SWT.COLOR_YELLOW);
 		} else {
 			color = table.getDisplay().getSystemColor(SWT.COLOR_TRANSPARENT);
 		}
-		
+
 		table.setBackground(color);
 	}
-	
-	//Get icon based on TaskType
-	private InputStream getImageStream(ITask task)  {
+
+	// Get icon based on TaskType
+	private InputStream getImageStream(ITask task) {
 		InputStream istream;
 		istream = task.getType().getIconStream();
-		//Default Image...
-		if(istream == null)  {
+		// Default Image...
+		if (istream == null) {
 			istream = getClass().getResourceAsStream("/images/unknown.gif");
 		}
 		return istream;

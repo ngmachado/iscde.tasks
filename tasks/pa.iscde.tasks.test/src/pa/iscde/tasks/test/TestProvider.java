@@ -66,15 +66,14 @@ public class TestProvider implements ITaskProvider {
 	}
 
 	@Override
-	public void performAction(pt.iscte.pidesco.javaeditor.service.JavaEditorServices jes, ITask task) {
-		List<ITask> lst = this.getTasks();
-		//get task to know information
-		for (ITask tk : lst) {
-			if(tk.equals(task)) {
-				System.out.println(tk.getAbsolutePath());
-				jes.openFile(new File(tk.getAbsolutePath()));
-			}
-		}
+	public void performAction(ITask task) {
+		System.out.println("Executing code from provider");
+		
+	}
+
+	@Override
+	public String getProviderName() {
+		return "pa.provider.test";
 	}
 
 }

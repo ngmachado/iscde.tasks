@@ -2,6 +2,7 @@ package pa.iscde.tasks.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.SortedSet;
 
@@ -24,55 +25,33 @@ import pt.iscte.pidesco.projectbrowser.model.SourceElement;
 public enum ModelProvider {
 
 	INSTANCE;
-	
-	private final List<ITaskProvider> taskProviders;
-	private String filterQuery;
-	
+
+	private final HashMap<ITaskProvider, List<ITask>> taskProviderRelation = new HashMap<>();
+
 	private ModelProvider() {
-		taskProviders = new ArrayList<ITaskProvider>();
 	}
 
-	public void setFilter(String filter) {
-		filterQuery = filter;
-	}
-	
 	public List<ITask> getTasksList() {
-		taskProviders.clear();
+		taskProviderRelation.clear();
+		
+		getInternalTasks();
 		getTasksFromClientProviders();
-		try {
-			 populateInternalTask(TasksActivator.getBrowserServices().getRootPackage().getChildren());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+
 		List<ITask> returnListTasks = new ArrayList<>();
-		for (ITaskProvider tp : taskProviders) {
-			returnListTasks.addAll(tp.getTasks());
+		for (List<ITask> list : taskProviderRelation.values()) {
+			returnListTasks.addAll(list);
 		}
-		
-		//Remove not query results
-		if(filterQuery != null)  {
-			List<ITask> filterResult = new ArrayList<>();
-			for (ITask iTask : returnListTasks) {
-				if(iTask.getType().getType().equals(filterQuery)) {
-					filterResult.add(iTask);
-				}
-				
-			}
-			//If the result is empty then is better to show all
-			if(filterResult.isEmpty())  {
-				return returnListTasks;
-			} else {
-				return filterResult;
-			}
-			
-			
-		}
-		
+
 		return returnListTasks;
 	}
 
-	//Get tasks from plugin clients.
+	private void getInternalTasks(){
+		final ITaskProvider internalProvider = new TaskProvider();
+		final List<ITask> internalTasks = internalProvider.getTasks();
+		taskProviderRelation.put(internalProvider, internalTasks);
+	}
+	
+	// Get tasks from plugin clients.
 	public void getTasksFromClientProviders() {
 		final IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
 		final IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("pa.iscde.tasks.provider");
@@ -82,14 +61,9 @@ public enum ModelProvider {
 			for (IConfigurationElement c : confElements) {
 				try {
 					ITaskProvider tp = (ITaskProvider) c.createExecutableExtension("class");
-					String idProvider = c.getAttribute("class");
-					
-					if (tp != null) {
-						TaskProvider provider = new TaskProvider();
-						provider.setClienteId(idProvider);
-						provider.setTasks(tp.getTasks());
-						taskProviders.add(provider);
-					}
+					if (tp != null)
+						taskProviderRelation.put(tp, tp.getTasks());
+
 				} catch (CoreException e1) {
 					e1.printStackTrace();
 				}
@@ -97,68 +71,25 @@ public enum ModelProvider {
 		}
 
 	}
-	
-	//Get Provider ID for a given task 
-	public String getProviderID(ITask task) 
-	{
-		for (ITaskProvider tp : taskProviders) 
-		{
-			for (ITask t : tp.getTasks()) {
-				if(t.equals(task))
-				{
-					return ((TaskProvider)tp).getClienteId();
-				}
-			}
-		}
-		//If don't found Provider user a generic one...
-		return "pa.iscte.generic"; 
-	}
-	
-	private void handleSources(SortedSet<SourceElement> sources, List<ITask> lst) throws IOException {
-		// TODO - Convert to Visitor?
-		for (SourceElement e : sources) {
-			if (e.isPackage())
-				handleSources(((PackageElement) e).getChildren(),lst);
-			else 
-			{
-				lst.addAll(new CommentExtractor(new FileToString(e.getFile()).parse(), e.getName(),
-						e.getFile().getAbsolutePath()).getCommentDetails());	
-			}
-				
 
-		}
-	}
+ 
 
-	private void populateInternalTask(SortedSet<SourceElement> sources)  throws IOException
-	{
-		List<ITask> lst = new ArrayList<ITask>();
-		handleSources(sources,lst);
-		String id = this.getClass().getPackage().getName();
-		TaskProvider prv = new TaskProvider();
-		prv.setClienteId(id);
-		prv.setTasks(lst);
-		taskProviders.add(prv);
-	}
-	
-	private ITaskProvider findProvider(ITask task)  {
-		for (ITaskProvider tp : taskProviders) {
-			for (ITask tk : tp.getTasks()) {
-				if(tk.equals(task)) {
-					return tp;
-				}
-			}
+
+
+
+	public ITaskProvider findProvider(ITask task) {
+		for(ITaskProvider tp: taskProviderRelation.keySet()){
+			if(taskProviderRelation.get(tp).contains(task))
+				return tp;
 		}
+		
 		return null;
 	}
-	
-	public void ActionPerformFromProvider(JavaEditorServices jes, ITask task) {
-		//Find PerformAction of Task and executed in jes editor context
-		//find based on providerID
+
+	public void performActionFromTaskProvider(ITask task) {
 		ITaskProvider tp = findProvider(task);
-		if(tp != null)  {
-			tp.performAction(jes,task);
+		if (tp != null) {
+			tp.performAction(task);
 		}
-		//If not found don't do nothing...
-		return;
 	}
 }

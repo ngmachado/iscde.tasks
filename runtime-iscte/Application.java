@@ -8,15 +8,11 @@ import org.eclipse.ui.PlatformUI;
 
 /*
  * This class controls all aspects of the application's execution
- * #ANALISYS,LOW (Startup performance)
-  *
+ *
  * #TEST,LOW (Startup performance)
  */
 public class Application implements IApplication {
 	// #BUG,MEDIUM (Null Pointer)
-	// #BUG,MEDIUM (Null Pointer) 
-	// #BUG,MEDIUM (Null Pointer) 
-	// #BUG,MEDIUM (Null Pointer)  
 	public Object start(IApplicationContext context) {
 		Display display = PlatformUI.createDisplay();
 		try {

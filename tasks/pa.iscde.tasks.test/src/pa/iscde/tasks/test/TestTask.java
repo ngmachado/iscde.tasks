@@ -14,7 +14,7 @@ public class TestTask implements ITaskType {
 	@Override
 	public InputStream getIconStream() {
 		//Get path to image
-		String path = "/icon/icon.png";
+		String path = "/icon/icon.gif";
 		InputStream istream = getClass().getResourceAsStream(path);
 		return istream;
 	}

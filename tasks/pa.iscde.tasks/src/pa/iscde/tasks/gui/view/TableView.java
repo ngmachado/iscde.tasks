@@ -39,18 +39,18 @@ public class TableView implements PidescoView {
 
 	private static TableViewer taskViewer;
 	
-	public static void setFilter(ViewerFilter filter)  {
+	public void setFilter(ViewerFilter filter)  {
 		removeAllFilters();
 		taskViewer.addFilter(filter);
 		FilterColor(taskViewer.getTable());
 	}
 	
-	public static void removeFilter(ViewerFilter filter)  {
+	public void removeFilter(ViewerFilter filter)  {
 		taskViewer.removeFilter(filter);
 		FilterColor(taskViewer.getTable());
 	}
 	
-	public static void removeAllFilters()  {
+	public void removeAllFilters()  {
 		ViewerFilter[] filters = taskViewer.getFilters();
 		
 		for (ViewerFilter filter : filters) {
@@ -59,7 +59,7 @@ public class TableView implements PidescoView {
 		FilterColor(taskViewer.getTable());
 	}
 	
-	private static boolean isFilterSet()  {
+	private boolean isFilterSet()  {
 		if(taskViewer.getFilters().length > 0)
 			return true;
 		return false;
@@ -207,7 +207,7 @@ public class TableView implements PidescoView {
 		return menu;
 	}
 	
-	private static void FilterColor(Table table)  {
+	private void FilterColor(Table table)  {
 		Color color;
 		if(isFilterSet())  {
 			color = table.getDisplay().getSystemColor(SWT.COLOR_YELLOW);

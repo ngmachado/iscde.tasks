@@ -23,33 +23,15 @@ public class TaskSearch {
 		public void widgetSelected(final String text_Search, String text_SearchInCombo, String specificText_SearchInCombo,
 				String text_SearchForCombo, ArrayList<String> buttonsSelected_SearchForCombo) {
 			
-			if(text_Search.length() > 0)  {
+			if(text_Search.length() > 0 && text_Search.trim().charAt(0) == '#')  {
 				
 				TaskFilter filter = new TaskFilter();
 				filter.setFilter(text_Search);
-				TableView.getInstance();
-				TableView.setFilter(filter);
+				TableView.getInstance().setFilter(filter);
 			} else 
 			{
-				TableView.getInstance();
-				TableView.removeAllFilters();
+				TableView.getInstance().removeAllFilters();
 			}
-			
-			/*
-			//get types of tasks 
-			List<ITaskType> lst =  InternalTaskTypeProvider.getTypes();
-			//Filter to find if type exists
-			for (ITaskType type : lst) {
-				if(type.getType().equals(text_Search)) {
-					//TableView.getInstance().refresh(text_Search);
-					System.out.println("Added Filter...");
-					TaskFilter filter = new TaskFilter();
-					filter.setFilter(text_Search);
-					TableView.getInstance();
-					TableView.setFilter(filter);
-				}
-			}
-			*/
 		}
 	};
 	

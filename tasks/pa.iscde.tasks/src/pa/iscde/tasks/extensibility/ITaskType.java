@@ -16,6 +16,11 @@ public interface ITaskType {
 	 */
 	public String getType();
 	
+	/**
+     * A Stream that contains a icon image for the Type.
+     * 
+     * @return InputStream
+     */
 	public InputStream getIconStream();
 	
 	

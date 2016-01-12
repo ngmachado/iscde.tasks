@@ -1,6 +1,5 @@
 package pa.iscde.tasks.test;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +51,6 @@ public class TestProvider implements ITaskProvider {
 
 		@Override
 		public String getAbsolutePath() {
-			//return "D:\\projects\\iscte2015\\iscte.tasks\\pa.iscde.tasks.test\\plugin.xml";
 			return "./plugin.xml";
 		}
 

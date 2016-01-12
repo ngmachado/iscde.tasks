@@ -52,7 +52,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":pa.iscde.tasks.extensibility.TaskProvider"/>
+                  <meta.attribute kind="java" basedOn=":pa.iscde.tasks.extensibility.ITaskProvider"/>
                </appinfo>
             </annotation>
          </attribute>

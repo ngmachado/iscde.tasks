@@ -23,6 +23,12 @@ public interface ITaskType {
      */
 	public InputStream getIconStream();
 	
+	/**
+	 * Define action to be perform in ITask task
+	 * 
+	 * @param task ITask that action will be perform
+	 */
+	public void performAction(ITask task);
 	
 
 }

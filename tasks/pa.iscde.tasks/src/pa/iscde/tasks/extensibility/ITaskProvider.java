@@ -18,11 +18,5 @@ public interface ITaskProvider {
 	 */
 	public List<ITask> getTasks(); 
 	
-	/**
-	 * Define action to be perform in ITask task
-	 * 
-	 * @param task ITask that action will be perform
-	 */
-	public void performAction(ITask task);
-	
+
 }

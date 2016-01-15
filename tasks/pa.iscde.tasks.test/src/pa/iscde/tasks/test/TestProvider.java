@@ -31,6 +31,11 @@ public class TestProvider implements ITaskProvider {
 					// TODO Auto-generated method stub
 					return null;
 				}
+
+				@Override
+				public void performAction(ITask task) {
+					System.out.println("Executing code from provider");
+				}
 			};
 		}
 
@@ -61,12 +66,6 @@ public class TestProvider implements ITaskProvider {
 		final ArrayList<ITask> tasks = new ArrayList<>();
 		tasks.add(new TaskTest());
 		return tasks;
-	}
-
-	@Override
-	public void performAction(ITask task) {
-		System.out.println("Executing code from provider");
-		
 	}
 
 	@Override

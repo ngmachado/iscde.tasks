@@ -7,14 +7,14 @@ public interface ITaskProvider {
 	/**
 	 * Return the Provider Name
 	 * 
-	 * @return String
+	 * @return String (non-null)
 	 */
 	public String getProviderName();
 	
 	/**
 	 * Get a list of task from the Provider
 	 * 
-	 * @return List<ITask>
+	 * @return List<ITask> (non-null)
 	 */
 	public List<ITask> getTasks(); 
 	

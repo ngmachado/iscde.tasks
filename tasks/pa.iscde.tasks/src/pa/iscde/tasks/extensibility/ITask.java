@@ -1,23 +1,23 @@
 package pa.iscde.tasks.extensibility;
 
 /**
- * Abstracts the Task concept
+ * Represents a Task
  * 
  */
 public interface ITask {
 	
 	
 	/**
-	 * Get the Priority for one task
+	 * Get the Priority for one task.
 	 * 
-	 * @return String
+	 * @return String (non-null)
 	 */
 	public String getPriority();
 
 	/**
 	 * Define the type to one task.
 	 * 
-	 * @return ITaskType
+	 * @return ITaskType (non-null)
 	 */
 	public ITaskType getType();
 	
@@ -25,28 +25,29 @@ public interface ITask {
 	/**
 	 * Get message that will be part of the task
 	 * 
-	 * @return String
+	 * @return String (non-null)
 	 */
 	public String getMsg();
 
 	/**
-	 * Get the number line where is located the task
-	 * 
-	 * @return Integer
+	 * Get the number line where is located the task.
+	 * If the task doesn't is text based, return 0.
+	 * @return Integer (not-null)
 	 */
 	public Integer getLineNo();
 
 	/**
 	 * Get the file where is located the task
+	 * If the task doesn't is text based, return 0.
 	 * 
-	 * @return String
+	 * @return String (non-null)
 	 */
 	public String getFileName();
 
 	/**
 	 * Get the absolute path to file where is located the task
 	 * 
-	 * @return String
+	 * @return String (non-null)
 	 */
 	public String getAbsolutePath();
 
